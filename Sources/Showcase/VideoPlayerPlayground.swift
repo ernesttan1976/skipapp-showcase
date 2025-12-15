@@ -106,7 +106,7 @@ struct LoopingPlayerView: View {
 
     init(url: URL) {
         let playerItem = AVPlayerItem(url: url)
-        let queuePlayer = AVQueuePlayer(playerItem: playerItem)
+        let queuePlayer = AVQueuePlayer(items: [playerItem])
         self.player = queuePlayer
         self.playerLooper = AVPlayerLooper(player: queuePlayer, templateItem: playerItem)
     }
@@ -120,7 +120,7 @@ struct LoopingPlayerView: View {
                 }
 
             Slider(value: $rate, in: 0.0...10.0, label: { Text("Rate") })
-                .onChange(of: rate) { newValue in
+                .onChange(of: rate) { oldValue, newValue in
                     player.rate = Float(newValue)
                 }
         }
@@ -154,7 +154,7 @@ struct ScrollingVideoItem : View {
             } else {
                 let url = URL(string: video.url)!
                 let playerItem = AVPlayerItem(url: url)
-                let player = AVQueuePlayer(playerItem: playerItem)
+                let player = AVQueuePlayer(items: [playerItem])
                 VideoPlayer(player: player)
                     .onAppear {
                         player.play()
